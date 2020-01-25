@@ -99,7 +99,7 @@ module.exports = function (ctx) {
       manifest: {
         name: 'Mobile Wallet',
         short_name: 'Mobile Wallet',
-        description: 'Mobile cryptocurrency wallet',
+        description: 'Multi currency encrypted mobile wallet',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

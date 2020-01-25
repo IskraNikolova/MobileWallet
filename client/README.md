@@ -1,6 +1,6 @@
 # Mobile Wallet (mobile-wallet)
 
-Mobile cryptocurrency wallet
+Multi currency encrypted mobile wallet
 
 ## Install the dependencies
 ```bash
@@ -24,3 +24,8 @@ quasar build
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+
+### Run Jest Unit tests
+```bash
+quasar test --unit jest --dev
+```

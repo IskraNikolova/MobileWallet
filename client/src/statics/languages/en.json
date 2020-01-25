@@ -1,0 +1,11 @@
+{
+    "_welcome": "Welcome",
+    "_welcomeBack": "Welcome Back",
+    "_createWallet": "Create Wallet",
+    "_restoreWallet": "Restore Wallet",
+    "_send": "Send",
+    "_receive": "Receive",
+    "_settings": "Settings",
+    "_tools": "Tools",
+    "_addressBook": "Address Book"
+}
