@@ -11,7 +11,8 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.styl'
+      'app.styl',
+      'themes/dark.styl'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -78,8 +79,8 @@ module.exports = function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      https: false,
-      port: 8080,
+      // https: false,
+      // port: 8080,
       open: true // opens browser window automatically
     },
 

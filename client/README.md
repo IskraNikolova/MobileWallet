@@ -27,5 +27,5 @@ See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 
 ### Run Jest Unit tests
 ```bash
-quasar test --unit jest --dev
+yarn test:unit
 ```
