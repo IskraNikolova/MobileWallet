@@ -8,8 +8,13 @@ npm install
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
+#### Android
 ```bash
-quasar dev
+quasar dev -m cordova -T android
+```
+#### ios
+```bash
+quasar dev -m cordova -T ios
 ```
 
 ### Lint the files
@@ -18,8 +23,13 @@ npm run lint
 ```
 
 ### Build the app for production
+#### Android
 ```bash
-quasar build
+quasar build -m cordova -T android
+```
+#### ios
+```bash
+quasar build -m cordova -T ios
 ```
 
 ### Customize the configuration
