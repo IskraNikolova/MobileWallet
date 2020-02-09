@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 
+import app from './app'
+import wallets from './wallets'
 import ui from './ui'
 
 Vue.use(Vuex)
@@ -26,6 +28,8 @@ const vuexLocal = new VuexPersistence({
  */
 const Store = new Vuex.Store({
   modules: {
+    app,
+    wallets,
     ui
   },
   plugins: [ vuexLocal.plugin ],

@@ -13,7 +13,7 @@
         </div>
       </q-toolbar>
     </q-header>
-    <q-page-container>
+    <q-page-container v-touch-pan.horizontal.prevent.mouse="goBack">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -26,6 +26,13 @@ export default {
   data () {
     return {
       leftDrawerOpen: false
+    }
+  },
+  methods: {
+    goBack ({ evt, ...info }) {
+      if (info.direction === 'right') {
+        this.$router.go(-1)
+      }
     }
   }
 }

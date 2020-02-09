@@ -28,3 +28,14 @@ export function deepMerge (...objects) {
     return undefined
   }
 }
+
+/**
+* Check password is include upper and lower case letters, numbers and symbols and must be at least 8 characters
+*
+* @param passord objects - string
+* @returns boolean is match pattern
+*/
+export const validatePassFormat = ({ password }) => {
+  const pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/gm
+  return pattern.test(password)
+}

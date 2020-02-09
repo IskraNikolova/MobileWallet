@@ -1,0 +1,6 @@
+export const INIT_APP = 'INIT_APP'
+export const SET_COINS = 'SET_COINS'
+export const SET_CONSTANTS = 'SET_CONSTANTS'
+export const SET_LANGUAGE = 'SET_LANGUAGE'
+export const SET_KEY = 'SET_KEY'
+export const SET_ACTION = 'SET_ACTION'

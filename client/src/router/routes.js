@@ -1,4 +1,3 @@
-
 const routes = [
   {
     path: '/',
@@ -11,7 +10,28 @@ const routes = [
     path: '/init',
     component: () => import('layouts/SimpleLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Init.vue') }
+      { path: '/init', component: () => import('pages/Init.vue') }
+    ]
+  },
+  {
+    path: '/pin',
+    component: () => import('layouts/SimpleLayout.vue'),
+    children: [
+      { path: '/pin', component: () => import('pages/Pin.vue') }
+    ]
+  },
+  {
+    path: '/create-wallet',
+    component: () => import('layouts/SimpleLayout.vue'),
+    children: [
+      { path: '/create-wallet/:coin', component: () => import('pages/Create.vue') }
+    ]
+  },
+  {
+    path: '/restore-wallet',
+    component: () => import('layouts/SimpleLayout.vue'),
+    children: [
+      { path: '/restore-wallet/:coin', component: () => import('pages/Restore.vue') }
     ]
   }
 ]
