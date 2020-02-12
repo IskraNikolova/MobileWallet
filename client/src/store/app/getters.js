@@ -6,6 +6,10 @@ export function constants (state) {
   return state.constants
 }
 
+export function endpoint (state) {
+  return state.endpoint
+}
+
 export function language (state) {
   return state.language
 }

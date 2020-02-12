@@ -1,8 +1,9 @@
 export default {
-  athNetwork: 'https://ava.network:21015/ext/evm/rpc',
+  athNetwork: 'ava.network:21015/ext/evm/ws',
+  chainId: 43110,
   coins: [
     {
-      name: 'Avalanche',
+      name: '$AVA',
       abb: 'AVA',
       logo: 'ava-black.png'
     },

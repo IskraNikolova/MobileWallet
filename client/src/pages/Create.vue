@@ -6,7 +6,7 @@
         style="max-width:100px;max-height:100px;"
       >
       <div style="padding-top: 42px;">
-        <create-wallet-form @focus="scroll"/>
+        <create-wallet-form @focus="scroll" @click="onCreate"/>
       </div>
     </div>
   </q-page>
@@ -17,9 +17,12 @@ import {
   mapGetters,
   mapActions } from 'vuex'
 
+import { notify } from './../modules/notify'
+
 import { ensureScrollVerticalTo } from '../utils/scroll'
 
 import CreateWalletForm from './../components/create-wallet-form'
+import { CREATE_WALLET } from '../store/wallets/types'
 
 export default {
   name: 'PageCreate',
@@ -27,7 +30,7 @@ export default {
     CreateWalletForm
   },
   created () {
-    if (!this.hasWallets) this.$router.push('/pin')
+    // if (!this.hasWallets) this.$router.push('/pin')
   },
   data () {
     return {
@@ -42,12 +45,20 @@ export default {
   },
   methods: {
     ...mapActions({
+      createWallet: CREATE_WALLET
     }),
     scroll () {
       this.visibility = ensureScrollVerticalTo({
         yCoordinate: document.body.scrollHeight,
         retryCount: 0
       })
+    },
+    onCreate ({ password, name }) {
+      this.createWallet({ password, name, coin: this.coinByName(this.$route.params.coin) })
+        .then((res) => {
+        }).catch((err) => {
+          notify.createError('notify-error', err.message)
+        })
     }
   }
 }

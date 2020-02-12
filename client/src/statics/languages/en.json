@@ -18,5 +18,6 @@
     "_wrongPin": "Wrong pin!",
     "_welcome": "Welcome",
     "_welcomeBack": "Welcome Back",
-    "_wallet": "Wallets"
+    "_wallet": "Wallets",
+    "_notEnoughError": "You don't have enough to send transaction"
 }

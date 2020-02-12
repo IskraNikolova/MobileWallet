@@ -1,12 +1,27 @@
 import {
   SET_WALLETS,
-  CREATE_WALLET,
-  ADD_WALLET
+  CREATE_WALLET
+  // ADD_WALLET
 } from './types'
 
-function createWallet ({ commit }, { wallet, coin }) {
-  // todo
-  commit(ADD_WALLET, { wallet, coin })
+import { createAthWallet } from '../../modules/athNetwork'
+
+const temp = {
+  'ath': ({ password, name }) => {
+    const account = createAthWallet(password)
+    console.log(account)
+    return {}
+  },
+  'ava': ({ password, name, coin }) => {
+    alert('ava')
+    return {}
+  }
+}
+
+function createWallet ({ commit }, { password, name, coin }) {
+  const wallet = temp[coin.abb.toLowerCase()]({ password, name, coin })
+  console.log(wallet)
+  // commit(ADD_WALLET, { wallet, coin })
 }
 
 function setWallets ({ commit, getters }) {

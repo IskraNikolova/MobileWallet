@@ -1,6 +1,9 @@
 import router from '../../router'
+
 import config from '../../modules/config'
 import { decryptKey } from '../../modules/crypto'
+import { initDb } from '../../modules/fileManager'
+import { initializeNetwork } from '../../modules/athNetwork'
 
 import {
   INIT_APP,
@@ -16,8 +19,13 @@ import {
 
 function initApp ({ commit, dispatch, getters }) {
   commit(SET_COINS, { coins: config.coins })
+  // TODO move to other action
+  initializeNetwork(getters.endpoint)
   if (!getters.hasWallets) {
     dispatch(SET_CONSTANTS)
+    initDb()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
     router.push('/init')
   }
 }

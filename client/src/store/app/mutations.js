@@ -3,8 +3,8 @@ import {
   SET_COINS,
   SET_CONSTANTS,
   SET_LANGUAGE,
-  SET_ACTION
-
+  SET_ACTION,
+  SET_ENDPOINT
 } from './types'
 
 const mutations = {
@@ -22,6 +22,9 @@ const mutations = {
   },
   [SET_ACTION]: (state, { action }) => {
     state.action = action
+  },
+  [SET_ENDPOINT]: (state, { endpoint }) => {
+    state.endpoint = endpoint
   }
 }
 

@@ -72,13 +72,9 @@
 
 <script>
 import {
-  mapActions,
   mapGetters } from 'vuex'
 
-import { notify } from './../modules/notify'
 import { validatePassFormat } from './../utils/commons'
-
-import { CREATE_WALLET } from '../store/wallets/types'
 
 export default {
   name: 'CreateWalletForm',
@@ -93,9 +89,6 @@ export default {
     ...mapGetters(['constants'])
   },
   methods: {
-    ...mapActions({
-      createWallet: CREATE_WALLET
-    }),
     isValid (pass) {
       return validatePassFormat({ password: pass })
     },
@@ -106,15 +99,10 @@ export default {
       this.$emit('focus')
     },
     onSubmit () {
-      this.createWallet({
+      this.$emit('click', {
         password: this.password,
         name: this.name
       })
-        .then((res) => {
-          this.phrase = res
-        }).catch((err) => {
-          notify.createError('notify-error', err.message)
-        })
     }
   }
 }
