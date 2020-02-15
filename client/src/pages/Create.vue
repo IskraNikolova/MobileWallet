@@ -17,7 +17,7 @@ import {
   mapGetters,
   mapActions } from 'vuex'
 
-import { notify } from './../modules/notify'
+// import { notify } from './../modules/notify'
 
 import { ensureScrollVerticalTo } from '../utils/scroll'
 
@@ -54,11 +54,10 @@ export default {
       })
     },
     onCreate ({ password, name }) {
-      this.createWallet({ password, name, coin: this.coinByName(this.$route.params.coin) })
-        .then((res) => {
-        }).catch((err) => {
-          notify.createError('notify-error', err.message)
-        })
+      this.createWallet({
+        password,
+        name,
+        coin: this.coinByName(this.$route.params.coin) })
     }
   }
 }

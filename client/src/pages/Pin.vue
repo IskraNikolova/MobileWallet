@@ -40,25 +40,24 @@ export default {
     ...mapActions({
       setKey: SET_KEY
     }),
-    onConfirmClick () {
-      this.setKey({ key: this.key })
-        .then(() => {
-          this.$router.go(-1)
-        })
-        .catch(() => {
-          notify.createError(
-            'notify-error',
-            this.constants._wrongPin
-          )
-          this.index = 0
-          this.key = ''
-        })
+    async onConfirmClick () {
+      let isCorrect = await this.setKey({ key: this.key })
+      if (isCorrect) {
+        this.$router.go(-1)
+      } else {
+        notify.createError(
+          'notify-error',
+          this.constants._wrongPin
+        )
+        this.index = 0
+        this.key = ''
+      }
     },
-    handleClick (digit) {
+    async handleClick (digit) {
       this.key += digit
       this.index++
       if (this.index === 4) {
-        this.onConfirmClick()
+        await this.onConfirmClick()
       }
     }
   }

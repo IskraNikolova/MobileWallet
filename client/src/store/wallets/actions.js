@@ -19,9 +19,13 @@ const temp = {
 }
 
 function createWallet ({ commit }, { password, name, coin }) {
-  const wallet = temp[coin.abb.toLowerCase()]({ password, name, coin })
-  console.log(wallet)
-  // commit(ADD_WALLET, { wallet, coin })
+  try {
+    const wallet = temp[coin.abb.toLowerCase()]({ password, name, coin })
+    console.log(wallet)
+    // commit(ADD_WALLET, { wallet, coin })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 function setWallets ({ commit, getters }) {

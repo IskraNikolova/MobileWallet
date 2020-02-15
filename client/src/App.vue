@@ -11,8 +11,8 @@ import {
 
 export default {
   name: 'App',
-  created () {
-    this.$store.dispatch(INIT_APP)
+  async created () {
+    await this.$store.dispatch(INIT_APP)
   }
 }
 </script>

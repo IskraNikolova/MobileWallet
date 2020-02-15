@@ -125,13 +125,13 @@ export const getCurrentBalance = async address => {
 export const createAthWallet = password => {
   let pk = web3.utils.randomHex(32)
   let newAccount = web3.eth.accounts.privateKeyToAccount(pk)
-  let address = newAccount.address.substr(2)
+  let address = newAccount.address
   let date = (new Date(Date.now())).toJSON()
 
   return ({
     address,
     keystore: JSON.stringify(newAccount.encrypt(password)),
-    keyFileName: `UTC--${date.replace(/:/g, '-')}--${address}`
+    keyFileName: `UTC--${date.replace(/:/g, '-')}--${address.substr(2)}`
   })
 }
 

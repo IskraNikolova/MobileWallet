@@ -1,9 +1,5 @@
-export function key (state) {
-  return state.key
-}
-
 export function constants (state) {
-  return state.constants
+  return require(`./../../statics/languages/${state.language}`)
 }
 
 export function endpoint (state) {

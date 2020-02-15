@@ -2,6 +2,10 @@
   <q-form
     @submit="onSubmit"
     class="q-gutter-md"
+    autocorrect="off"
+    autocapitalize="off"
+    autocomplete="off"
+    spellcheck="false"
   >
     <q-input
       filled
