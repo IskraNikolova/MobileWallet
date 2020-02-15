@@ -22,61 +22,8 @@ async function initApp ({ commit, dispatch, getters }) {
   commit(SET_COINS, { coins: config.coins })
   // TODO move to other action
   initializeNetwork(getters.endpoint)
-  // await db.openDB()
-  // db.createTable('tableTest45', ['age', 'name'])
-  //   .then((res) => console.log)
-  //   .catch((err) => console.error(err))
-  // let query = `SELECT * FROM tableTest45;`
-  // db.executeSQL(query)
-  //   .then((rs) => {
-  //   })
-  //   .catch((err) => console.log(err))
-
-  // db.addItem('tableTest45', ['age', 'name'], ['9', '?'])
-  //   .then((res) => {
-  //     console.log(res)
-  //     db.getDataWhere('tableTest45', ['age', 'name'], 'age', '9')
-  //       .then((rs) => {
-  //         for (var x = 0; x < rs.rows.length; x++) {
-  //           console.log(rs.rows.item(x))
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //       })
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //   })
 
   if (!getters.hasWallets) {
-    // initDb()
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err))
-    // db.openDB()
-    //   .then((res) => {
-    //     db.addItem('test90', '4', 'isis')
-    //       .then((res2) => {
-    //         db.closeDB()
-    //         console.log(res2)
-    //       })
-    //       .catch((err) => {
-    //         console.log(err)
-    //         db.closeDB()
-    //       })
-    //     db.getData('test90', 'id', 1, 'id', 'name')
-    //       .then((res2) => {
-    //         // db.closeDB()
-    //         console.log(res2)
-    //       })
-    //       .catch((err) => {
-    //         console.log(err)
-    //         // db.closeDB()
-    //       })
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
     router.push('/init')
   }
 }
