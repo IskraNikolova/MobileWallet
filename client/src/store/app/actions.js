@@ -20,7 +20,6 @@ import {
 
 async function initApp ({ commit, dispatch, getters }) {
   commit(SET_COINS, { coins: config.coins })
-  // TODO move to other action
   initializeNetwork(getters.endpoint)
 
   if (!getters.hasWallets) {
