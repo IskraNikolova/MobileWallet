@@ -4,7 +4,7 @@ import Tx from 'ethereumjs-tx'
 const walletEth = require('ethereumjs-wallet')
 
 import config from './config'
-import { decryptKey } from './crypto'
+import { decryptWallet } from './crypto'
 const constants = require(`./../statics/languages/en`)
 
 let web3
@@ -75,8 +75,11 @@ export const prepareTransaction = async ({ sendObj, password, key }) => {
   }
 
   const keyObj = (sendObj.from).substring(2)
-  const ciphertext = sendObj.encryptWallet[`${keyObj}`]
-  const keystore = decryptKey({ ciphertext, key })
+  // todo take iv and salt
+  const encrypted = sendObj.encryptWallet[`${keyObj}`]
+  const iv = ''
+  const salt = ''
+  const keystore = decryptWallet({ encrypted, password: key, iv, salt })
   const pk = getPrivateKey({ keystore, password })
 
   const tx = new Tx(rawTx)

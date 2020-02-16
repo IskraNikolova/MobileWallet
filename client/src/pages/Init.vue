@@ -4,6 +4,7 @@
       src="~assets/ava-black.png"
       style="width:200vw;max-width:250px;"
     >
+    {{ myCoins }}
     <div>
       <q-btn
         no-caps
@@ -46,7 +47,8 @@ export default {
     ...mapGetters([
       'constants',
       'action',
-      'coinByName'
+      'coinByName',
+      'myCoins'
     ])
   },
   methods: {

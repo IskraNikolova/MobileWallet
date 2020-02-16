@@ -71,6 +71,15 @@ export const getDataWhere = (tableName, columns, selectorColumnName, selectorCol
       .catch((err) => reject(err))
   })
 
+export const getData = (tableName) =>
+  new Promise((resolve, reject) => {
+    let query = `SELECT * FROM ${tableName}`
+
+    executeSQL(query)
+      .then((res) => resolve(res))
+      .catch((err) => reject(err))
+  })
+
 /**
  * Remove a row from the database that matches the passed in 'column' with 'value'.
  * @param {string} tableName

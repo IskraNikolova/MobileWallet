@@ -2,7 +2,8 @@ import {
   SET_COINS,
   SET_LANGUAGE,
   SET_ACTION,
-  SET_ENDPOINT
+  SET_ENDPOINT,
+  INIT_COIN
 } from './types'
 
 const mutations = {
@@ -17,6 +18,10 @@ const mutations = {
   },
   [SET_ENDPOINT]: (state, { endpoint }) => {
     state.endpoint = endpoint
+  },
+  [INIT_COIN]: (state, abb) => {
+    console.log(abb)
+    state.myCoins[abb] = true
   }
 }
 

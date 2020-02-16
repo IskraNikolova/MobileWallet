@@ -18,7 +18,7 @@ import {
   OPEN_CHOICE_WALLET
 } from './../ui/types'
 
-async function initApp ({ commit, dispatch, getters }) {
+async function initApp ({ commit, getters }) {
   commit(SET_COINS, { coins: config.coins })
   initializeNetwork(getters.endpoint)
 

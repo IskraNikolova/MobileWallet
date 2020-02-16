@@ -1,50 +1,34 @@
-const CryptoJS = require('crypto-js')
 const crypto = require('crypto')
-console.log(crypto)
-// const algorithm = 'aes256'
+const algorithm = 'aes-192-cbc'
 
-// Encrypt
-export const encryptKey = ({ data, password }) => {
-  const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), password)
-  return ciphertext
+/**
+ * Encrypt keystore
+ * @param {string} keystore
+ * @param {string} password
+*/
+export const encryptWallet = (keystore, password) => {
+  const salt = crypto.randomBytes(24).toString('hex')
+  const key = crypto.pbkdf2Sync(password, salt, 1000, 24, 'sha512')
+  const iv = Buffer.from(crypto.randomBytes(16), 'hex')
+  const cipher = crypto.createCipheriv(algorithm, key, iv)
+  let encrypted = cipher.update(keystore, 'utf8', 'hex')
+  encrypted += cipher.final('hex')
+  return { iv: iv.toString('hex'), salt, encrypted }
 }
 
-// Decrypt
-export const decryptKey = ({ ciphertext, key }) => {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, key)
-  const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
-  return decryptedData
+/**
+ * Decrypt keystore
+ * @param {string} encrypted
+ * @param {string} password
+ * @param {string} iv
+ * @param {string} salt
+*/
+export const decryptWallet = (encrypted, password, iv, salt) => {
+  const key = crypto.pbkdf2Sync(password, salt, 1000, 24, 'sha512')
+  const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(iv, 'hex'))
+  let decrypted = decipher.update(encrypted, 'hex', 'utf8')
+  decrypted += decipher.final('utf8')
+  return decrypted
 }
 
-crypto.randomBytes(256).toString('hex')
-// export const encrypt = (key, pass) => {
-//   const secret =
-//   const iv = Buffer.from(crypto.randomBytes(256).toString(), 'hex')
-//   const cipher = crypto.createCipheriv(algorithm, secret, iv)
-//   let encrypted = cipher.update(key, 'utf8', 'hex')
-//   encrypted += cipher.final('hex')
-//   return encrypted
-// }
-
-// const decryptionSecrets = {}
-// export const decrypt = (encryptedMessage, publicKey) => {
-//   const iv = Buffer.from(publicKey.substr(0, 32), 'hex')
-//   decryptionSecrets[publicKey] = decryptionSecrets[publicKey] || computeSecret(Buffer.from(publicKey, 'hex'))
-//   const decipher = crypto.createDecipheriv(algorithm, decryptionSecrets[publicKey], iv)
-//   let decrypted = decipher.update(encryptedMessage, 'hex', 'utf8')
-//   decrypted += decipher.final('utf8')
-//   return decrypted
-// }
-
-// export const getRandomHex = () => crypto.randomBytes(20).toString('hex')
-
-// /**
-//  * Compute a secret key for messages encryption/decryption
-//  * @param {Buffer} publicKeyBuffer
-//  */
-// const computeSecret = publicKeyBuffer => {
-//   const ecdh = crypto.createECDH('secp256k1')
-//   ecdh.generateKeys()
-//   ecdh.setPrivateKey(getPrivateKeyBuffer())
-//   return ecdh.computeSecret(publicKeyBuffer)
-// }
+export const getRandomHex = () => crypto.randomBytes(20).toString('hex')

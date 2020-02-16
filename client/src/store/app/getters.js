@@ -21,3 +21,7 @@ export function coinByName (state) {
 export function action (state) {
   return state.action
 }
+
+export function myCoins (state) {
+  return state.myCoins
+}
