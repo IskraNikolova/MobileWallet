@@ -118,9 +118,9 @@ export const updateItem = (tableName, column, selector, newValues) =>
  * @param {Array} values
 */
 export const executeSQL = (query, values = []) =>
-  new Promise((resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     if (!Array.isArray(values)) return
-
+    await openDB()
     db.transaction(function (tx) {
       tx.executeSql(query, values, function (tx, rs) {
         resolve(rs)
@@ -131,6 +131,7 @@ export const executeSQL = (query, values = []) =>
       reject(error)
     }, function () {
       console.log('transaction ok')
+      closeDB()
     })
   })
 
