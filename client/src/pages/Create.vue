@@ -17,8 +17,6 @@ import {
   mapGetters,
   mapActions } from 'vuex'
 
-// import { notify } from './../modules/notify'
-
 import { ensureScrollVerticalTo } from '../utils/scroll'
 
 import CreateWalletForm from './../components/create-wallet-form'
@@ -30,7 +28,7 @@ export default {
     CreateWalletForm
   },
   created () {
-    // if (!this.hasWallets) this.$router.push('/pin')
+    if (!this.hasKey) this.$router.push('/pin')
   },
   data () {
     return {
@@ -40,7 +38,7 @@ export default {
   computed: {
     ...mapGetters([
       'coinByName',
-      'hasWallets'
+      'hasKey'
     ])
   },
   methods: {

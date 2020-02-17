@@ -1,4 +1,5 @@
 import {
+  SET_KEY,
   SET_COINS,
   SET_LANGUAGE,
   SET_ACTION,
@@ -20,8 +21,10 @@ const mutations = {
     state.endpoint = endpoint
   },
   [INIT_COIN]: (state, abb) => {
-    console.log(abb)
     state.myCoins[abb] = true
+  },
+  [SET_KEY]: (state) => {
+    state.hasKey = true
   }
 }
 

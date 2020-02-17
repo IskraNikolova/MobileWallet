@@ -1,20 +1,16 @@
 import {
+  ADD_WALLET,
   SET_WALLETS,
   CREATE_WALLET
-  // ADD_WALLET
 } from './types'
 
 import {
   INIT_COIN
 } from './../app/types'
 
+import { encryptWallet } from '../../modules/crypto'
 import { createAthWallet } from '../../modules/athNetwork'
 import { addToAthTable, createAthTable } from '../../modules/dbManager'
-
-import {
-  encryptWallet
-  // decryptWallet
-} from '../../modules/crypto'
 
 const create = {
   'ATH': ({ password }) => {
@@ -61,7 +57,7 @@ async function createWallet ({ commit, getters }, { password, name, coin }) {
 
     await addToTable[coin.abb]({ wallet, coin, password, name })
 
-    // commit(ADD_WALLET, { wallet, coin })
+    commit(ADD_WALLET, { coin: coin.abb, wallet: wallet.address })
   } catch (err) {
     console.log(err)
   }

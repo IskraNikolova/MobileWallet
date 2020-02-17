@@ -17,18 +17,22 @@ export const initializeNetwork = endpoint => {
   web3 = new Web3(provider)
 }
 
-export const changeProvider = endpointAddress => {
+export const changeProvider = endpoint => {
   const provider = new Web3
     .providers
-    .WebsocketProvider(`wss://${endpointAddress}`)
+    .WebsocketProvider(`wss://${endpoint}`)
   web3.setProvider(provider)
 }
 
-export const validateEndpointConnectivity = async address => {
+/**
+ * Validate connection with endpoint
+ * @param {string} endpoint
+*/
+export const validateEndpointConnectivity = async endpoint => {
   try {
     const provider = new Web3
       .providers
-      .WebsocketProvider(`wss://${address}`)
+      .WebsocketProvider(`wss://${endpoint}`)
 
     provider.on('error', () => {
       provider.connection.close()

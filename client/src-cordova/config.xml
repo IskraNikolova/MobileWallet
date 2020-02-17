@@ -25,6 +25,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <preference name="iosPersistentFileLocation" value="Library" />
+        <preference name="KeychainAccessibility" value="WhenUnlocked"/>
     </platform>
     <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
         <string>need camera access to take pictures</string>

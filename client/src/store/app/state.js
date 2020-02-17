@@ -8,5 +8,6 @@ export default {
   myCoins: config.coins.reduce((res, c) => {
     res[c.abb] = false
     return res
-  }, {})
+  }, {}),
+  hasKay: false
 }

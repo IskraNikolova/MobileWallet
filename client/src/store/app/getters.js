@@ -25,3 +25,7 @@ export function action (state) {
 export function myCoins (state) {
   return state.myCoins
 }
+
+export function hasKey (state) {
+  return state.hasKey
+}

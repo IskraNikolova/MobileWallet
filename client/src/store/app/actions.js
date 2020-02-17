@@ -1,15 +1,14 @@
 import router from '../../router'
 
 import config from '../../modules/config'
-// import { decryptKey } from '../../modules/crypto'
-// import { initDb } from '../../modules/fileManager'
 import { initializeNetwork } from '../../modules/athNetwork'
-import { secureStore } from '../../modules/secureStore'
-// import * as db from '../../modules/sqlManager'
+import { secureStore, initSecureStore } from '../../modules/secureStore'
+import { getDerivedKey, getRandomHex } from '../../modules/crypto'
 
 import {
   INIT_APP,
   SET_KEY,
+  VALIDATE_KEY,
   SET_COINS,
   SET_ACTION
 } from './types'
@@ -20,27 +19,28 @@ import {
 
 async function initApp ({ commit, getters }) {
   commit(SET_COINS, { coins: config.coins })
+
   initializeNetwork(getters.endpoint)
+  await initSecureStore()
 
   if (!getters.hasWallets) {
     router.push('/init')
   }
 }
 
-async function setKey ({ getters }, { key }) {
-  if (Object.keys(getters.wallets).length < 1) {
-    await secureStore.set('key', key)
-    return
-  }
+async function setKey ({ commit }, { key }) {
+  const salt = getRandomHex()
+  const derivedKey = getDerivedKey(key, salt)
+  await secureStore.set('key', JSON.stringify({ salt, derivedKey }))
 
-  try {
-    // let address = Object.keys(getters.wallets[0])[0]
-    // decryptKey({ ciphertext: getters.wallets[0][`${address}`], key })
-    await secureStore.set('key', key)
-    return true
-  } catch (err) {
-    return false
-  }
+  commit(SET_KEY)
+}
+
+async function validateKey ({ getters }, { key }) {
+  const encrypted = await secureStore.get('key')
+  const { salt, derivedKey } = JSON.parse(encrypted)
+
+  return derivedKey === getDerivedKey(key, salt)
 }
 
 function setAction ({ dispatch, commit }, { action }) {
@@ -49,7 +49,8 @@ function setAction ({ dispatch, commit }, { action }) {
 }
 
 export default {
-  [INIT_APP]: initApp,
   [SET_KEY]: setKey,
-  [SET_ACTION]: setAction
+  [INIT_APP]: initApp,
+  [SET_ACTION]: setAction,
+  [VALIDATE_KEY]: validateKey
 }

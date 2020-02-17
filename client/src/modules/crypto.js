@@ -13,6 +13,7 @@ export const encryptWallet = (keystore, password) => {
   const cipher = crypto.createCipheriv(algorithm, key, iv)
   let encrypted = cipher.update(keystore, 'utf8', 'hex')
   encrypted += cipher.final('hex')
+
   return { iv: iv.toString('hex'), salt, encrypted }
 }
 
@@ -28,7 +29,13 @@ export const decryptWallet = (encrypted, password, iv, salt) => {
   const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(iv, 'hex'))
   let decrypted = decipher.update(encrypted, 'hex', 'utf8')
   decrypted += decipher.final('utf8')
+
   return decrypted
 }
 
 export const getRandomHex = () => crypto.randomBytes(20).toString('hex')
+
+export const getDerivedKey = (secret, salt) => {
+  const derivedKey = crypto.pbkdf2Sync(secret, salt, 1000, 24, 'sha512')
+  return derivedKey
+}
