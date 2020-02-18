@@ -15,7 +15,9 @@
   "dependencies": {
     "cordova-android": "^8.1.0",
     "cordova-plugin-file": "^6.0.2",
+    "cordova-plugin-navigationbar-color": "0.0.9",
     "cordova-plugin-secure-storage": "^3.0.2",
+    "cordova-plugin-statusbar": "^2.4.3",
     "cordova-sqlite-storage": "^4.0.0"
   },
   "devDependencies": {
@@ -26,7 +28,9 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-file": {},
       "cordova-plugin-secure-storage": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-navigationbar-color": {}
     },
     "platforms": [
       "android"

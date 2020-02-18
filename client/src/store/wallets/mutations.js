@@ -1,13 +1,13 @@
+import Vue from 'vue'
+
 import {
-  SET_WALLETS,
   ADD_WALLET
 } from './types'
 
 const mutations = {
-  [SET_WALLETS]: (state, { wallets }) => {
-    state.wallets = wallets
-  },
   [ADD_WALLET]: (state, { wallet, coin }) => {
+    if (!state.wallets[coin]) Vue.set(state.wallets, coin, [])
+
     state.wallets[coin].push(wallet)
   }
 }

@@ -5,6 +5,7 @@ const algorithm = 'aes-192-cbc'
  * Encrypt keystore
  * @param {string} keystore
  * @param {string} password
+ * @returns {Object}
 */
 export const encryptWallet = (keystore, password) => {
   const salt = crypto.randomBytes(24).toString('hex')
@@ -23,6 +24,7 @@ export const encryptWallet = (keystore, password) => {
  * @param {string} password
  * @param {string} iv
  * @param {string} salt
+ * @returns {string}
 */
 export const decryptWallet = (encrypted, password, iv, salt) => {
   const key = crypto.pbkdf2Sync(password, salt, 1000, 24, 'sha512')

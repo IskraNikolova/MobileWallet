@@ -51,11 +51,14 @@ export default {
         retryCount: 0
       })
     },
-    onCreate ({ password, name }) {
-      this.createWallet({
+    async onCreate ({ password, name }) {
+      let res = await this.createWallet({
         password,
         name,
         coin: this.coinByName(this.$route.params.coin) })
+
+      if (res) this.$router.push(`/wallets/${this.$route.params.coin}`)
+      else this.$router.go(-1)
     }
   }
 }

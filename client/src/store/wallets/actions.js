@@ -1,6 +1,7 @@
+import { Notify } from 'quasar'
+
 import {
   ADD_WALLET,
-  SET_WALLETS,
   CREATE_WALLET
 } from './types'
 
@@ -58,15 +59,14 @@ async function createWallet ({ commit, getters }, { password, name, coin }) {
     await addToTable[coin.abb]({ wallet, coin, password, name })
 
     commit(ADD_WALLET, { coin: coin.abb, wallet: wallet.address })
+
+    return true
   } catch (err) {
-    console.log(err)
+    Notify.create(err.message)
+    return false
   }
 }
 
-function setWallets ({ commit, getters }) {
-}
-
 export default {
-  [CREATE_WALLET]: createWallet,
-  [SET_WALLETS]: setWallets
+  [CREATE_WALLET]: createWallet
 }

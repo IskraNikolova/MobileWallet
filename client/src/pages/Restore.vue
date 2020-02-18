@@ -5,8 +5,8 @@
         :src="'./../statics/coins/' + coinByName($route.params.coin).logo"
         style="max-width:100px;max-height:100px;"
       >
-      <restore-ava-wallet v-if="abb === 'ava'"/>
-      <restore-ath-wallet v-else-if="abb === 'ath'"/>
+      <restore-ava-wallet v-if="abb === 'AVA'"/>
+      <restore-ath-wallet v-else-if="abb === 'ATH'"/>
     </div>
   </q-page>
 </template>
@@ -28,8 +28,6 @@ export default {
     // if (!this.hasWallets) this.$router.push('/pin')
 
     this.abb = this.coinByName(this.$route.params.coin)
-      .abb
-      .toLowerCase()
   },
   data () {
     return {

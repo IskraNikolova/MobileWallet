@@ -15,7 +15,7 @@ export function coins (state) {
 }
 
 export function coinByName (state) {
-  return name => state.coins.find(c => c.name === name)
+  return abb => state.coins.find(c => c.abb === abb)
 }
 
 export function action (state) {

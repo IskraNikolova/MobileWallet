@@ -2,7 +2,8 @@ const DB_NAME = 'walletDb.db'
 var db
 
 /**
- * Call the openDatabase() function to get started, passing in the name and location for the database.
+ * Call the openDatabase() function to get started,
+ * passing in the name and location for the database.
 */
 export const openDB = () => new Promise((resolve, reject) => {
   document.addEventListener('deviceready', onDeviceReady, false)
@@ -20,9 +21,11 @@ export const openDB = () => new Promise((resolve, reject) => {
 })
 
 /**
- * Create a table with columns. If the table already exists, this SQL statement opens the table.
+ * Create a table with columns. If the table already exists,
+ * this SQL statement opens the table.
  * @param {string} tableName
  * @param {Array} columnsNames
+ * @returns {Promise}
 */
 export const createTable = (tableName, columnsNames) =>
   new Promise((resolve, reject) => {
@@ -38,11 +41,13 @@ export const createTable = (tableName, columnsNames) =>
  * @param {string} tableName
  * @param {Array} toColumns
  * @param {Array} columnsValues
+ * @returns {Promise}
 */
 export const addItem = (tableName, toColumns, columnsValues) =>
   new Promise((resolve, reject) => {
     // build string for placeholder like ( ?, ?, ? ) - repeat '?' toColumns.length
     let stringQuery = new Array(toColumns.length).fill('?').join(', ')
+
     let query = `INSERT INTO ${tableName} (${toColumns.join(', ')}) VALUES (${stringQuery})`
 
     executeSQL(query, columnsValues)
@@ -52,7 +57,8 @@ export const addItem = (tableName, toColumns, columnsValues) =>
 
 /**
  * Read from the database using a SELECT statement.
- * Include a WHERE condition to match the resultSet to the passed in 'selectorColumnName' with 'selectorColumnValue'.
+ * Include a WHERE condition to match the resultSet to the passed in
+ * 'selectorColumnName' with 'selectorColumnValue'.
  * Get result from resultSet.rows.item
  *  for(var x = 0; x < resultSet.rows.length; x++) {
       console.log(resultSet.rows.item(x))
@@ -61,6 +67,7 @@ export const addItem = (tableName, toColumns, columnsValues) =>
  * @param {Array} columns
  * @param {string} selectorColumnName
  * @param {string} selectorColumnValue
+ * @returns {Promise}
 */
 export const getDataWhere = (tableName, columns, selectorColumnName, selectorColumnValue) =>
   new Promise((resolve, reject) => {
@@ -85,6 +92,7 @@ export const getData = (tableName) =>
  * @param {string} tableName
  * @param {string} column
  * @param {string} selectorColumnValue
+ * @returns {Promise}
 */
 export const removeItem = (tableName, column, value) =>
   new Promise((resolve, reject) => {
@@ -102,6 +110,7 @@ export const removeItem = (tableName, column, value) =>
  * @param {string} column
  * @param {string} selector
  * @param {Array} newValues
+ * @returns {Promise}
 */
 export const updateItem = (tableName, column, selector, newValues) =>
   new Promise((resolve, reject) => {
@@ -116,28 +125,39 @@ export const updateItem = (tableName, column, selector, newValues) =>
  * Execute SQL requests
  * @param {string} query
  * @param {Array} values
+ * @returns {Promise}
 */
 export const executeSQL = (query, values = []) =>
-  new Promise(async (resolve, reject) => {
+  new Promise((resolve, reject) => {
     if (!Array.isArray(values)) return
-    await openDB()
-    db.transaction(function (tx) {
-      tx.executeSql(query, values, function (tx, rs) {
-        resolve(rs)
-      }, function (tx, error) {
-        reject(error)
-      })
-    }, function (error) {
-      reject(error)
-    }, function () {
-      console.log('transaction ok')
-      closeDB()
+
+    openDB().then(() => {
+      db.transaction(
+        statementCallback,
+        callError,
+        () => closeDB()
+      )
     })
+
+    function statementCallback (tx) {
+      tx.executeSql(
+        query,
+        values,
+        (tx, rs) => resolve(rs),
+        (tx, error) => reject(error)
+      )
+    }
+
+    function callError (error) {
+      closeDB()
+      reject(error)
+    }
   })
 
 /**
  * When you are finished with your transactions, close the database.
- * Call closeDB within the transaction success or failure callbacks (rather than the callbacks for executeSql()).
+ * Call closeDB within the transaction success or failure callbacks
+ * (rather than the callbacks for executeSql()).
 */
 export const closeDB = () => {
   db.close(function () {

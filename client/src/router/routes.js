@@ -33,6 +33,13 @@ const routes = [
     children: [
       { path: '/restore-wallet/:coin', component: () => import('pages/Restore.vue') }
     ]
+  },
+  {
+    path: '/wallets',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/wallets/:coin', component: () => import('pages/Wallets.vue') }
+    ]
   }
 ]
 

@@ -47,7 +47,8 @@ export default {
       'constants',
       'action',
       'coinByName',
-      'myCoins'
+      'myCoins',
+      'wallets'
     ])
   },
   methods: {
@@ -59,7 +60,7 @@ export default {
     },
     init (coin) {
       this.$refs.wm.close()
-      this.$router.push(`/${this.action}-wallet/${coin.name}`)
+      this.$router.push(`/${this.action}-wallet/${coin.abb}`)
     }
   }
 }
