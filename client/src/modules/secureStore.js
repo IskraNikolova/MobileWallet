@@ -48,16 +48,16 @@ const browserStorage = {
 }
 
 const cordovaStorage = {
-  set: async (key, value) => new Promise((resolve, reject) => {
+  set: (key, value) => new Promise((resolve, reject) => {
     secureStorePlugin.set(() => resolve(), error => reject(error), key, value)
   }),
-  get: async key => new Promise((resolve, reject) => {
+  get: key => new Promise((resolve, reject) => {
     secureStorePlugin.get(value => resolve(value), error => {
       if (error.message.match(/not (be )?found/i)) resolve()
       reject(error)
     }, key)
   }),
-  remove: async key => new Promise((resolve, reject) => {
+  remove: key => new Promise((resolve, reject) => {
     secureStorePlugin.remove(() => resolve(), error => reject(error), key)
   })
 }

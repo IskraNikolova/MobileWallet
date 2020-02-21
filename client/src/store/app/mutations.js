@@ -1,10 +1,10 @@
 import {
-  SET_KEY,
   SET_COINS,
+  SET_KEY,
   SET_LANGUAGE,
-  SET_ACTION,
   SET_ENDPOINT,
-  INIT_COIN
+  INIT_COIN,
+  SET_USED_COIN
 } from './types'
 
 const mutations = {
@@ -14,9 +14,6 @@ const mutations = {
   [SET_COINS]: (state, { coins }) => {
     state.coins = coins
   },
-  [SET_ACTION]: (state, { action }) => {
-    state.action = action
-  },
   [SET_ENDPOINT]: (state, { endpoint }) => {
     state.endpoint = endpoint
   },
@@ -25,6 +22,9 @@ const mutations = {
   },
   [SET_KEY]: (state) => {
     state.hasKey = true
+  },
+  [SET_USED_COIN]: (state, { coin }) => {
+    state.usedCoin = coin
   }
 }
 

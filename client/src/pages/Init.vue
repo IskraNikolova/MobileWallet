@@ -33,7 +33,8 @@ import {
   mapGetters,
   mapActions } from 'vuex'
 
-import { SET_ACTION } from './../store/app/types'
+import { SET_ACTION } from './../store/ui/types'
+import { SET_USED_COIN } from './../store/app/types'
 
 import WalletsMenu from './../components/wallets-мenu'
 
@@ -45,9 +46,7 @@ export default {
   computed: {
     ...mapGetters([
       'constants',
-      'action',
-      'coinByName',
-      'myCoins',
+      'ui',
       'wallets'
     ])
   },
@@ -60,7 +59,8 @@ export default {
     },
     init (coin) {
       this.$refs.wm.close()
-      this.$router.push(`/${this.action}-wallet/${coin.abb}`)
+      this.$store.commit(SET_USED_COIN, { coin })
+      this.$router.push(`/${this.ui.action}-wallet/${coin.abb}`)
     }
   }
 }

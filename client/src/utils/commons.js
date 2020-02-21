@@ -1,3 +1,5 @@
+import { getCurrentBalance } from './../modules/athNetwork'
+
 /**
 * Performs a deep merge of objects and returns new object. Does not modify
 * objects (immutable) and merges arrays via concatenation.
@@ -38,4 +40,20 @@ export function deepMerge (...objects) {
 export const validatePassFormat = ({ password }) => {
   const pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/gm
   return pattern.test(password)
+}
+
+export const getBalance = async (address, abb) => {
+  const disp = {
+    'ATH': async (address) => {
+      const balance = await getCurrentBalance(address)
+      return balance.ath
+    },
+    'AVA': (address) => {
+      // todo
+      return 0
+    }
+  }
+
+  const res = await disp[abb](address)
+  return res
 }

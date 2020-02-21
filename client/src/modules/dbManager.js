@@ -30,3 +30,21 @@ export const createAthTable = (coin) =>
       })
       .catch((err) => reject(err))
   })
+
+/**
+ * GET Wallets.
+ * @param {string} tableName
+ * @param {string} columns
+*/
+export const getWallets = (tableName, columns) =>
+  new Promise((resolve, reject) => {
+    db.getData(tableName, columns)
+      .then((resultSet) => {
+        let res = []
+        for (let x = 0; x < resultSet.rows.length; x++) {
+          res.push(resultSet.rows.item(x).address)
+        }
+        resolve(res)
+      })
+      .catch((err) => reject(err))
+  })

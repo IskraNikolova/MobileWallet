@@ -57,23 +57,25 @@ export default {
       validateKey: VALIDATE_KEY
     }),
     async onConfirmClick () {
-      if (!this.hasWallets) {
-        await this.setKey({ key: this.key })
-        this.$router.go(-1)
-        console.log(0)
-      } else {
-        console.log(1)
-        let isCorrect = await this.validateKey({ key: this.key })
-        if (isCorrect) {
+      try {
+        if (!this.hasWallets) {
+          await this.setKey({ key: this.key })
           this.$router.go(-1)
         } else {
-          notify.createError(
-            'notify-error',
-            this.constants._wrongPin
-          )
-          this.index = 0
-          this.key = ''
+          let isCorrect = await this.validateKey({ key: this.key })
+          if (isCorrect) {
+            this.$router.go(-1)
+          } else {
+            notify.createError(
+              'notify-error',
+              this.constants._wrongPin
+            )
+            this.index = 0
+            this.key = ''
+          }
         }
+      } catch (err) {
+        console.error(err)
       }
     },
     async handleClick (digit) {

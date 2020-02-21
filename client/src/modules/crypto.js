@@ -38,6 +38,6 @@ export const decryptWallet = (encrypted, password, iv, salt) => {
 export const getRandomHex = () => crypto.randomBytes(20).toString('hex')
 
 export const getDerivedKey = (secret, salt) => {
-  const derivedKey = crypto.pbkdf2Sync(secret, salt, 1000, 24, 'sha512')
+  const derivedKey = crypto.pbkdf2Sync(secret, salt, 500, 24, 'sha256')
   return derivedKey
 }

@@ -78,9 +78,9 @@ export const getDataWhere = (tableName, columns, selectorColumnName, selectorCol
       .catch((err) => reject(err))
   })
 
-export const getData = (tableName) =>
+export const getData = (tableName, columns = ['*']) =>
   new Promise((resolve, reject) => {
-    let query = `SELECT * FROM ${tableName}`
+    let query = `SELECT ${columns.join(', ')} FROM ${tableName}`
 
     executeSQL(query)
       .then((res) => resolve(res))
@@ -163,6 +163,6 @@ export const closeDB = () => {
   db.close(function () {
     console.log('DB closed!')
   }, function (error) {
-    console.log('Error closing DB:' + error.message)
+    console.log('Error closing DB:' + error)
   })
 }

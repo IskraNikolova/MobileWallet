@@ -1,7 +1,8 @@
 import Vue from 'vue'
 
 import {
-  ADD_WALLET
+  ADD_WALLET,
+  SET_WALLETS
 } from './types'
 
 const mutations = {
@@ -9,6 +10,9 @@ const mutations = {
     if (!state.wallets[coin]) Vue.set(state.wallets, coin, [])
 
     state.wallets[coin].push(wallet)
+  },
+  [SET_WALLETS]: (state, { coin, addresses }) => {
+    state.wallets[coin] = addresses
   }
 }
 

@@ -9,20 +9,20 @@ import {
   INIT_APP,
   SET_KEY,
   VALIDATE_KEY,
-  SET_COINS,
-  SET_ACTION
+  SET_COINS
 } from './types'
 
 import {
-  OPEN_CHOICE_WALLET
-} from './../ui/types'
+  SET_WALLETS
+} from './../wallets/types'
 
-async function initApp ({ commit, getters }) {
+async function initApp ({ commit, dispatch, getters }) {
   commit(SET_COINS, { coins: config.coins })
 
   initializeNetwork(getters.endpoint)
   await initSecureStore()
 
+  await dispatch(SET_WALLETS)
   if (!getters.hasWallets) {
     router.push('/init')
   }
@@ -31,8 +31,8 @@ async function initApp ({ commit, getters }) {
 async function setKey ({ commit }, { key }) {
   const salt = getRandomHex()
   const derivedKey = getDerivedKey(key, salt)
-  await secureStore.set('key', JSON.stringify({ salt, derivedKey }))
 
+  await secureStore.set('key', JSON.stringify({ salt, derivedKey }))
   commit(SET_KEY)
 }
 
@@ -43,14 +43,8 @@ async function validateKey ({ getters }, { key }) {
   return derivedKey === getDerivedKey(key, salt)
 }
 
-function setAction ({ dispatch, commit }, { action }) {
-  dispatch(OPEN_CHOICE_WALLET)
-  commit(SET_ACTION, { action: action.split(' ')[0].toLowerCase() })
-}
-
 export default {
   [SET_KEY]: setKey,
   [INIT_APP]: initApp,
-  [SET_ACTION]: setAction,
   [VALIDATE_KEY]: validateKey
 }

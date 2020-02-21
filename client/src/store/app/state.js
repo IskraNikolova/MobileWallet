@@ -4,10 +4,14 @@ export default {
   endpoint: { label: 'AVA Network Official', value: config.athNetwork },
   language: 'en',
   coins: config.coins,
-  action: '',
   myCoins: config.coins.reduce((res, c) => {
     res[c.abb] = false
     return res
   }, {}),
-  hasKay: false
+  hasKey: false,
+  usedCoin: {
+    name: '$AVA',
+    abb: 'AVA',
+    logo: 'ava-black.png'
+  }
 }

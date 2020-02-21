@@ -2,7 +2,7 @@
   <q-page padding class="q-layout-page page-container" >
     <div style="padding: 8px;padding-top: 42px;">
       CREATE <img
-        :src="'./../statics/coins/' + coinByName($route.params.coin).logo"
+        :src="'./../statics/coins/' + usedCoin.logo"
         style="max-width:100px;max-height:100px;"
       >
       <div style="padding-top: 42px;">
@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'coinByName',
+      'usedCoin',
       'hasKey'
     ])
   },
@@ -52,12 +52,12 @@ export default {
       })
     },
     async onCreate ({ password, name }) {
-      let res = await this.createWallet({
+      const res = await this.createWallet({
         password,
         name,
-        coin: this.coinByName(this.$route.params.coin) })
+        coin: this.usedCoin })
 
-      if (res) this.$router.push(`/wallets/${this.$route.params.coin}`)
+      if (res) this.$router.push(`/wallets/${this.usedCoin.abb}`)
       else this.$router.go(-1)
     }
   }

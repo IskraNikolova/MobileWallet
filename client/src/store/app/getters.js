@@ -18,14 +18,14 @@ export function coinByName (state) {
   return abb => state.coins.find(c => c.abb === abb)
 }
 
-export function action (state) {
-  return state.action
-}
-
 export function myCoins (state) {
   return state.myCoins
 }
 
 export function hasKey (state) {
   return state.hasKey
+}
+
+export function usedCoin (state) {
+  return state.usedCoin
 }

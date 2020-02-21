@@ -1,5 +1,6 @@
 import {
   UPDATE_UI,
+  SET_ACTION,
   OPEN_CHOICE_WALLET,
   CLOSE_CHOICE_WALLET,
   OPEN_RESTORE_WALLET,
@@ -30,7 +31,13 @@ const closeRestoreWallet = ({ commit, getters }, { abb }) => {
   commit(UPDATE_UI, { restoreWallet })
 }
 
+function setAction ({ dispatch, commit }, { action }) {
+  dispatch(OPEN_CHOICE_WALLET)
+  commit(SET_ACTION, { action: action.split(' ')[0].toLowerCase() })
+}
+
 export default {
+  [SET_ACTION]: setAction,
   [UPDATE_UI]: updateUi,
   [OPEN_CHOICE_WALLET]: openChoiceWallet,
   [CLOSE_CHOICE_WALLET]: closeChoiceWallet,
