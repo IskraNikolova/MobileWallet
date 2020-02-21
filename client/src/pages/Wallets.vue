@@ -1,13 +1,18 @@
 <template>
-  <q-page class="flex flex-center light-background">
-    <div class="q-pa-md" v-for="(wallet, i) in walletsWithBalance" v-bind:key="i">
+  <q-page class="flex flex-center light-background q-pt-xl">
+    +   Total Balance: {{ total }} ATH
+    <div class="q-pa-sm" v-for="(wallet, i) in viewWallets" v-bind:key="i">
       <q-card
+        id="card"
         class="my-card text-white"
-        style='background: radial-gradient(circle, #9c9fa1 0%, #474c4f 100%);width: 320px;'
       >
         <q-card-section>
-          <div class="text-h6" :style="'color: ' + colors[color]">{{ wallet.name }}</div>
-          <div class="text-subtitle2">Balance: {{wallet.balance}} {{ usedCoin.abb }}</div>
+          <div class="text-h6" :style="'color: ' + colors[color]">
+            {{ wallet.name }}
+          </div>
+          <div class="text-subtitle2">
+            Balance: {{wallet.balance}} {{ usedCoin.abb }}
+          </div>
         </q-card-section>
         <q-card-section class="q-pt-none">
           {{ wallet.address.substr(0, 10)}}...{{wallet.address.substr(18)}}
@@ -18,9 +23,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+  mapGetters } from 'vuex'
 
-import { getBalance } from '../utils/commons'
+import {
+  getBalance } from '../utils/commons'
 
 export default {
   name: 'PageWallets',
@@ -28,42 +35,47 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'constants',
       'wallets',
-      'usedCoin'
+      'usedCoin',
+      'constants'
     ])
   },
   data () {
     return {
       color: 0,
-      colors: ['#c2fff3', '#97cdde', 'pink', '#9debb2', '#ebdcfa'],
-      walletsWithBalance: [],
-      interval: {}
+      total: 0,
+      colors: [
+        '#c2fff3',
+        '#97cdde',
+        'pink',
+        '#9debb2',
+        '#ebdcfa'],
+      interval: {},
+      viewWallets: []
     }
   },
-  async created () {
+  created () {
     this.color = Math.floor(Math.random() * 4)
-    this.walletsWithBalance = await Promise.all(this.wallets[this.usedCoin.abb]
-      .map(async (wallet) => {
-        let balance = await getBalance(wallet.address, this.usedCoin.abb)
 
-        return {
-          address: wallet.address,
-          balance,
-          name: wallet.name
-        }
-      }))
     this.interval = setInterval(async () => {
-      this.getWalletsInfo()
+      await this.getWalletsInfo()
     }, 500)
   },
   methods: {
     async getWalletsInfo () {
-      this.walletsWithBalance = await Promise.all(this.walletsWithBalance
+      let newTotal = 0
+      this.viewWallets = await Promise.all(this.wallets[this.usedCoin.abb]
         .map(async (wallet) => {
-          wallet.balance = await getBalance(wallet.address, this.usedCoin.abb)
-          return wallet
+          let balance = await getBalance(wallet.address, this.usedCoin.abb)
+          newTotal += Number(balance)
+          return {
+            address: wallet.address,
+            balance,
+            name: wallet.name
+          }
         }))
+
+      this.total = newTotal
     }
   },
   beforeDestroy () {
@@ -71,3 +83,10 @@ export default {
   }
 }
 </script>
+
+<style>
+#card {
+  background: radial-gradient(circle, #9c9fa1 0%, #474c4f 100%);
+  width: 320px;
+}
+</style>
