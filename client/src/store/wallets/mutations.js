@@ -11,8 +11,8 @@ const mutations = {
 
     state.wallets[coin].push(wallet)
   },
-  [SET_WALLETS]: (state, { coin, addresses }) => {
-    state.wallets[coin] = addresses
+  [SET_WALLETS]: (state, { coin, wallets }) => {
+    state.wallets[coin] = wallets
   }
 }
 

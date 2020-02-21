@@ -42,7 +42,7 @@ export const getWallets = (tableName, columns) =>
       .then((resultSet) => {
         let res = []
         for (let x = 0; x < resultSet.rows.length; x++) {
-          res.push(resultSet.rows.item(x).address)
+          res.push({ address: resultSet.rows.item(x).address, name: resultSet.rows.item(x).name })
         }
         resolve(res)
       })

@@ -57,7 +57,7 @@ async function createWallet ({ commit, getters }, { password, name, coin }) {
     commit(INIT_COIN, coin.abb)
     await addToTable[coin.abb]({ wallet, coin, password, name })
 
-    commit(ADD_WALLET, { coin: coin.abb, wallet: wallet.address })
+    commit(ADD_WALLET, { coin: coin.abb, wallet: { address: wallet.address, name } })
 
     return true
   } catch (err) {
@@ -74,7 +74,7 @@ async function setWallets ({ commit, getters }) {
       if (getters.myCoins[coins[i]]) {
         let result = await getWallets(coins[i])
         if (getters.wallets[coins[i]].length !== result.length) {
-          commit(SET_WALLETS, { coin: coins[i], addresses: result })
+          commit(SET_WALLETS, { coin: coins[i], wallets: result })
         }
       }
     } catch (err) {
