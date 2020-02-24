@@ -1,6 +1,9 @@
 import * as db from './sqlManager'
 
-const athColumns = ['address', 'name', 'iv', 'salt', 'encrypted', 'transactions']
+const columns = {
+  AVA: ['name', 'address'],
+  ATH: ['address', 'name', 'iv', 'salt', 'encrypted', 'transactions']
+}
 
 /**
  * Add new wallet to ATH table.
@@ -11,7 +14,7 @@ const athColumns = ['address', 'name', 'iv', 'salt', 'encrypted', 'transactions'
 */
 export const addToAthTable = (coin, address, name, { iv, salt, encrypted }) =>
   new Promise((resolve, reject) => {
-    db.addItem(coin, athColumns, [address, name, iv, salt, encrypted, []])
+    db.addItem(coin, columns[coin], [address, name, iv, salt, encrypted, []])
       .then((rs) => {
         resolve(rs)
       })
@@ -19,12 +22,12 @@ export const addToAthTable = (coin, address, name, { iv, salt, encrypted }) =>
   })
 
 /**
- * Init ATH table.
+ * Init db table.
  * @param {string} coin
 */
-export const createAthTable = (coin) =>
+export const createTable = (coin) =>
   new Promise((resolve, reject) => {
-    db.createTable(coin, athColumns)
+    db.createTable(coin, columns[coin])
       .then((response) => {
         resolve(response)
       })

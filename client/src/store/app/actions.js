@@ -4,6 +4,7 @@ import config from '../../modules/config'
 import { initializeNetwork } from '../../modules/athNetwork'
 import { secureStore, initSecureStore } from '../../modules/secureStore'
 import { getDerivedKey, getRandomHex } from '../../modules/crypto'
+import { createTable } from '../../modules/dbManager'
 
 import {
   INIT_APP,
@@ -19,11 +20,20 @@ import {
 async function initApp ({ commit, dispatch, getters }) {
   commit(SET_COINS, { coins: config.coins })
 
+  getters.coins.forEach(async coin => {
+    try {
+      await createTable(coin.abb)
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
   initializeNetwork(getters.endpoint)
   await initSecureStore()
-
+  // await secureStore.remove('key')
   await dispatch(SET_WALLETS)
-  if (!getters.hasWallets) {
+
+  if (getters.hasWallets < 1) {
     router.push('/init')
   }
 }

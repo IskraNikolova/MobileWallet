@@ -135,7 +135,7 @@ export const executeSQL = (query, values = []) =>
       db.transaction(
         statementCallback,
         callError,
-        () => closeDB()
+        () => {}
       )
     })
 
@@ -149,7 +149,7 @@ export const executeSQL = (query, values = []) =>
     }
 
     function callError (error) {
-      closeDB()
+      // closeDB()
       reject(error)
     }
   })

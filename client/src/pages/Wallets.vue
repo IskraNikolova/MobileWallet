@@ -54,9 +54,10 @@ export default {
       viewWallets: []
     }
   },
-  created () {
+  async created () {
     this.color = Math.floor(Math.random() * 4)
 
+    await this.getWalletsInfo()
     this.interval = setInterval(async () => {
       await this.getWalletsInfo()
     }, 500)
@@ -85,8 +86,8 @@ export default {
 </script>
 
 <style>
-#card {
-  background: radial-gradient(circle, #9c9fa1 0%, #474c4f 100%);
-  width: 320px;
-}
+  #card {
+    background: radial-gradient(circle, #9c9fa1 0%, #474c4f 100%);
+    width: 320px;
+  }
 </style>

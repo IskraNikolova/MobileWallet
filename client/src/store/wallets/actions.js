@@ -5,12 +5,13 @@ import {
 } from './types'
 
 import {
-  INIT_COIN
+  INIT_COIN,
+  SET_USED_COIN
 } from './../app/types'
 
 import { encryptWallet } from '../../modules/crypto'
 import { createAthWallet } from '../../modules/athNetwork'
-import { addToAthTable, createAthTable, getWallets } from '../../modules/dbManager'
+import { addToAthTable, getWallets } from '../../modules/dbManager'
 
 const create = {
   'ATH': ({ password }) => {
@@ -18,16 +19,6 @@ const create = {
     return account
   },
   'AVA': ({ password, name }) => {
-    alert('ava')
-    return {}
-  }
-}
-
-const initTable = {
-  'ATH': async ({ coin }) => {
-    await createAthTable(coin.abb)
-  },
-  'AVA': async ({ coin }) => {
     alert('ava')
     return {}
   }
@@ -50,11 +41,10 @@ async function createWallet ({ commit, getters }, { password, name, coin }) {
   try {
     const wallet = create[coin.abb]({ password, name })
 
-    if (getters.myCoins[coin.abb]) {
-      await initTable[coin.abb]({ coin })
+    if (!getters.myCoins[coin.abb]) {
       commit(INIT_COIN, coin.abb)
     }
-    commit(INIT_COIN, coin.abb)
+
     await addToTable[coin.abb]({ wallet, coin, password, name })
 
     commit(ADD_WALLET, { coin: coin.abb, wallet: { address: wallet.address, name } })
@@ -71,11 +61,10 @@ async function setWallets ({ commit, getters }) {
 
   for (let i = 0; i < coins.length; i++) {
     try {
-      if (getters.myCoins[coins[i]]) {
-        let result = await getWallets(coins[i])
-        if (getters.wallets[coins[i]].length !== result.length) {
-          commit(SET_WALLETS, { coin: coins[i], wallets: result })
-        }
+      let result = await getWallets(coins[i])
+      if (result.length > 0) {
+        commit(SET_WALLETS, { coin: coins[i], wallets: result })
+        commit(SET_USED_COIN, { coin: getters.coinByName(coins[i]) })
       }
     } catch (err) {
       console.log(err)
