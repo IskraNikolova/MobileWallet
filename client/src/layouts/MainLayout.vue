@@ -16,17 +16,64 @@
           </q-tabs>
         </div>
         <div class="col-3" style="text-align: right;padding-right:10px;">
-          <q-icon name="dehaze" size="sm" style="color: #9A9A9A;"/>
+          <q-btn flat style="color: #9A9A9A;" icon="dehaze">
+            <q-menu fit anchor="bottom left" self="top left" content-class="my-class">
+              <q-list dense style="min-width: 180px;padding:10px;">
+                <q-item clickable v-close-popup style="padding: 12px;">
+                  <q-item-section side>
+                     <img src="./../statics/coins2.png" style="width: 25px;height:25px;">
+                  </q-item-section>
+                  <q-item-section>Assets</q-item-section>
+                </q-item>
+                <q-item clickable v-close-popup style="padding: 12px;">
+                  <q-item-section side>
+                    <img src="./../statics/settings.png" style="width: 20px;height:20px;">
+                  </q-item-section>
+                  <q-item-section>Settings</q-item-section>
+                </q-item>
+                <q-item clickable v-close-popup style="padding: 12px;">
+                  <q-item-section side>
+                    <img src="./../statics/help.png" style="width: 20px;height:20px;">
+                  </q-item-section>
+                  <q-item-section>Help</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
         </div>
       </div>
-      <!--<img src="./../statics/line.png" style="width: 100%;margin-top: -23px;">-->
       <div id="curve"></div>
     </q-header>
+      <q-drawer
+        v-model="drawer"
+        show-if-above
+        :width="200"
+        :breakpoint="500"
+        bordered
+        side="right"
+      >
+        <q-scroll-area class="fit">
+          <q-list v-for="(menuItem, index) in menuList" :key="index">
+
+            <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
+              <q-item-section avatar>
+                <q-icon :name="menuItem.icon" />
+              </q-item-section>
+              <q-item-section>
+                {{ menuItem.label }}
+              </q-item-section>
+            </q-item>
+
+           <q-separator v-if="menuItem.separator" />
+
+          </q-list>
+        </q-scroll-area>
+      </q-drawer>
     <q-footer elevated class="bg-white text-primary">
       <q-tabs no-caps active-color="black" indicator-color="accent" class="text-grey">
-        <q-route-tab to="/send"><img src="./../statics/send.png" style="width: 45px;"></q-route-tab>
-        <q-route-tab :to="'/wallets/' + usedCoin.abb"><img src="./../statics/wallets.png" style="width: 75px;"></q-route-tab>
-        <q-route-tab to="/receive"><img src="./../statics/receive.png" style="width: 58px;margin-top:-4px;"></q-route-tab>
+        <q-route-tab to="/send"><img src="./../statics/send512.png" style="width: 25px;">Send</q-route-tab>
+        <q-route-tab :to="'/wallets/' + usedCoin.abb"><img src="./../statics/wallet2.png" style="width: 25px;">Wallets</q-route-tab>
+        <q-route-tab to="/receive"><img src="./../statics/receive512.png" style="width: 25px;">Receive</q-route-tab>
       </q-tabs>
     </q-footer>
     <q-page-container v-touch-pan.horizontal.prevent.mouse="goBack" class="q-pt-md">
@@ -36,6 +83,44 @@
 </template>
 
 <script>
+const menuList = [
+  {
+    icon: 'inbox',
+    label: 'Inbox',
+    separator: true
+  },
+  {
+    icon: 'send',
+    label: 'Outbox',
+    separator: false
+  },
+  {
+    icon: 'delete',
+    label: 'Trash',
+    separator: false
+  },
+  {
+    icon: 'error',
+    label: 'Spam',
+    separator: true
+  },
+  {
+    icon: 'settings',
+    label: 'Settings',
+    separator: false
+  },
+  {
+    icon: 'feedback',
+    label: 'Send Feedback',
+    separator: false
+  },
+  {
+    icon: 'help',
+    iconColor: 'primary',
+    label: 'Help',
+    separator: false
+  }
+]
 import {
   mapGetters } from 'vuex'
 
@@ -48,7 +133,8 @@ export default {
   },
   data () {
     return {
-      leftDrawerOpen: false
+      drawer: false,
+      menuList
     }
   },
   methods: {
@@ -79,5 +165,8 @@ export default {
     width:35vw;
     max-width:35px;
     margin-left: 35px;
+  }
+  .my-class {
+    border-radius:12%;
   }
 </style>

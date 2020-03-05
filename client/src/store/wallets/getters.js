@@ -5,3 +5,7 @@ export function wallets (state) {
 export function hasWallets (state) {
   return Object.keys(state.wallets).length
 }
+
+export function wallet (state) {
+  return state.wallet
+}

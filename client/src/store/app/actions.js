@@ -20,22 +20,19 @@ import {
 async function initApp ({ commit, dispatch, getters }) {
   commit(SET_COINS, { coins: config.coins })
 
-  getters.coins.forEach(async coin => {
-    try {
-      await createTable(coin.abb)
-    } catch (err) {
-      console.log(err)
-    }
-  })
-
   initializeNetwork(getters.endpoint)
   await initSecureStore()
-  // await secureStore.remove('key')
-  await dispatch(SET_WALLETS)
 
-  if (getters.hasWallets < 1) {
-    router.push('/init')
-  }
+  // await secureStore.remove('key')
+
+  Promise.all(getters.coins.map(c => {
+    createTable(c.abb)
+  })).then(async () => {
+    await dispatch(SET_WALLETS)
+    if (getters.hasWallets < 1) {
+      router.push('/init')
+    }
+  })
 }
 
 async function setKey ({ commit }, { key }) {

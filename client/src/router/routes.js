@@ -40,6 +40,13 @@ const routes = [
     children: [
       { path: '/wallets/:coin', component: () => import('pages/Wallets.vue') }
     ]
+  },
+  {
+    path: '/wallet',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/wallet', component: () => import('pages/Wallet.vue') }
+    ]
   }
 ]
 

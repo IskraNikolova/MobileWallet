@@ -29,11 +29,14 @@ export const openDB = () => new Promise((resolve, reject) => {
 */
 export const createTable = (tableName, columnsNames) =>
   new Promise((resolve, reject) => {
-    let query = `CREATE TABLE ${tableName} (${columnsNames.join(', ')})`
+    let query = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnsNames.join(', ')})`
 
     executeSQL(query)
       .then((res) => resolve(res))
-      .catch((err) => reject(err))
+      .catch((err) => {
+        console.log(err)
+        reject(err)
+      })
   })
 
 /**
@@ -83,7 +86,9 @@ export const getData = (tableName, columns = ['*']) =>
     let query = `SELECT ${columns.join(', ')} FROM ${tableName}`
 
     executeSQL(query)
-      .then((res) => resolve(res))
+      .then((res) => {
+        resolve(res)
+      })
       .catch((err) => reject(err))
   })
 
@@ -131,11 +136,15 @@ export const executeSQL = (query, values = []) =>
   new Promise((resolve, reject) => {
     if (!Array.isArray(values)) return
 
+    var result = {}
+
     openDB().then(() => {
       db.transaction(
         statementCallback,
         callError,
-        () => {}
+        () => {
+          resolve(result)
+        }
       )
     })
 
@@ -143,13 +152,14 @@ export const executeSQL = (query, values = []) =>
       tx.executeSql(
         query,
         values,
-        (tx, rs) => resolve(rs),
-        (tx, error) => reject(error)
+        (tx, rs) => {
+          result = rs
+        }
       )
     }
 
     function callError (error) {
-      // closeDB()
+      closeDB()
       reject(error)
     }
   })

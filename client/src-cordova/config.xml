@@ -10,6 +10,7 @@
     <plugin name="cordova-plugin-file" spec="~6.0.2" />
     <plugin name="cordova-plugin-secure-storage" spec="~3.0.2" />
     <plugin name="cordova-sqlite-storage" spec="~4.0.0" />
+    <plugin name="phonegap-plugin-barcodescanner" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

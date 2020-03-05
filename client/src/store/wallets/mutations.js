@@ -2,7 +2,8 @@ import Vue from 'vue'
 
 import {
   ADD_WALLET,
-  SET_WALLETS
+  SET_WALLETS,
+  SET_DETAILS_WALLET
 } from './types'
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   },
   [SET_WALLETS]: (state, { coin, wallets }) => {
     state.wallets[coin] = wallets
+  },
+  [SET_DETAILS_WALLET]: (state, { wallet }) => {
+    state.wallet = wallet
   }
 }
 

@@ -1,21 +1,25 @@
 <template>
-  <q-page class="flex flex-center light-background q-pt-xl">
-    +   Total Balance: {{ total }} ATH
-    <div class="q-pa-sm" v-for="(wallet, i) in viewWallets" v-bind:key="i">
+  <q-page class="light-background q-pt-xl">
+    <div class="row text-h4 q-pl-md" style>
+      <div>{{ total }}</div>
+      <q-btn flat size="md" label="Add" no-caps @click="$router.push('/create-wallet/' + usedCoin.abb )"/>
+    </div>
+    <div class="text-h8 q-pl-md">Total Balance</div>
+    <div class="q-pa-sm q-pl-md text-center" v-for="(wallet, i) in viewWallets" v-bind:key="i">
       <q-card
-        id="card"
         class="my-card text-white"
+        @click="onViewWallet(wallet)"
       >
         <q-card-section>
-          <div class="text-h6" :style="'color: ' + colors[color]">
-            {{ wallet.name }}
+          <div class="text-h6">
+            {{Number(wallet.balance).toFixed(2)}} {{ usedCoin.abb }}
           </div>
           <div class="text-subtitle2">
-            Balance: {{wallet.balance}} {{ usedCoin.abb }}
+            Balance
           </div>
         </q-card-section>
-        <q-card-section class="q-pt-none">
-          {{ wallet.address.substr(0, 10)}}...{{wallet.address.substr(18)}}
+        <q-card-section class="q-pt-none" :style="'color: ' + colors[color]">
+          {{ wallet.address.substr(0, 10)}}...{{wallet.address.substr(29)}}
         </q-card-section>
       </q-card>
     </div>
@@ -26,8 +30,8 @@
 import {
   mapGetters } from 'vuex'
 
-import {
-  getBalance } from '../utils/commons'
+// import { getBalance } from '../utils/commons'
+import { SET_DETAILS_WALLET } from '../store/wallets/types'
 
 export default {
   name: 'PageWallets',
@@ -55,7 +59,7 @@ export default {
     }
   },
   async created () {
-    this.color = Math.floor(Math.random() * 4)
+    this.color = Math.floor(Math.random() * this.colors.length)
 
     await this.getWalletsInfo()
     this.interval = setInterval(async () => {
@@ -67,7 +71,7 @@ export default {
       let newTotal = 0
       this.viewWallets = await Promise.all(this.wallets[this.usedCoin.abb]
         .map(async (wallet) => {
-          let balance = await getBalance(wallet.address, this.usedCoin.abb)
+          let balance = 0 // await getBalance(wallet.address, this.usedCoin.abb)
           newTotal += Number(balance)
           return {
             address: wallet.address,
@@ -77,6 +81,10 @@ export default {
         }))
 
       this.total = newTotal
+    },
+    onViewWallet (wallet) {
+      this.$store.commit(SET_DETAILS_WALLET, { wallet })
+      this.$router.push('/wallet')
     }
   },
   beforeDestroy () {
@@ -86,8 +94,9 @@ export default {
 </script>
 
 <style>
-  #card {
+  .my-card {
     background: radial-gradient(circle, #9c9fa1 0%, #474c4f 100%);
     width: 320px;
+    border-radius: 13%;
   }
 </style>

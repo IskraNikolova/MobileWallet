@@ -18,6 +18,7 @@ import {
   mapActions } from 'vuex'
 
 import { ensureScrollVerticalTo } from '../utils/scroll'
+const { notify } = require('./../modules/notify')
 
 import CreateWalletForm from './../components/create-wallet-form'
 import { CREATE_WALLET } from '../store/wallets/types'
@@ -52,13 +53,19 @@ export default {
       })
     },
     async onCreate ({ password, name }) {
-      const res = await this.createWallet({
-        password,
-        name,
-        coin: this.usedCoin })
-
-      if (res) this.$router.push(`/wallets/${this.usedCoin.abb}`)
-      else this.$router.go(-1)
+      try {
+        await this.createWallet({
+          password,
+          name,
+          coin: this.usedCoin })
+        this.$router.push(`/wallets/${this.usedCoin.abb}`)
+      } catch (err) {
+        notify.createError(
+          'notify-error',
+          err.message
+        )
+        this.$router.go(-1)
+      }
     }
   }
 }

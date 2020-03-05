@@ -5,16 +5,9 @@ const columns = {
   ATH: ['address', 'name', 'iv', 'salt', 'encrypted', 'transactions']
 }
 
-/**
- * Add new wallet to ATH table.
- * @param {string} coin
- * @param {string} address
- * @param {string} name
- * @param {Object} { iv, salt, encrypted }
-*/
-export const addToAthTable = (coin, address, name, { iv, salt, encrypted }) =>
+export const addToTable = (coin, ...params) =>
   new Promise((resolve, reject) => {
-    db.addItem(coin, columns[coin], [address, name, iv, salt, encrypted, []])
+    db.addItem(coin, columns[coin], [...params])
       .then((rs) => {
         resolve(rs)
       })
@@ -31,7 +24,9 @@ export const createTable = (coin) =>
       .then((response) => {
         resolve(response)
       })
-      .catch((err) => reject(err))
+      .catch((err) => {
+        console.log(err)
+      })
   })
 
 /**
@@ -47,7 +42,11 @@ export const getWallets = (tableName, columns) =>
         for (let x = 0; x < resultSet.rows.length; x++) {
           res.push({ address: resultSet.rows.item(x).address, name: resultSet.rows.item(x).name })
         }
-        resolve(res)
+        const result = {}
+        result[tableName] = res
+        resolve(result)
       })
-      .catch((err) => reject(err))
+      .catch((err) => {
+        reject(err)
+      })
   })
