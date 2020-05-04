@@ -1,2 +1,2 @@
-# mobile-wallet
+# Mobile Wallet
 Mobile cryptocurrency encrypted wallet
